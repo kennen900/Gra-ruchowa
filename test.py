@@ -3,11 +3,25 @@ import mediapipe as mp
 import random
 import time
 
+# funkcja sprawdzająca istniejące kamery
+def list_Camera(max_device = 10):
+    available = []
+    for i in range(max_device):
+        cap = cv2.VideoCapture(i)
+        if cap.isOpened():
+            ret, frame = cap.read()
+            if ret:
+                available.append(i)
+            cap.release()
+    return available
+    
+
+
 mp_hands = mp.solutions.hands
 hands = mp_hands.Hands()
 mp_drawing = mp.solutions.drawing_utils
 
-cap = cv2.VideoCapture(0)
+
 
 # obiekt do trafienia
 target_x = random.randint(100, 500)
@@ -16,6 +30,15 @@ radius = 30
 
 score = 0
 spawn_time = time.time()
+
+cameras = list_Camera()
+print("Dostepne kamer: ", cameras)
+if not cameras:
+    print("Brak kamer")
+    exit()
+
+which_camera = int(input("Podaj ktora kamere wybierasz: "))
+cap = cv2.VideoCapture(which_camera)
 
 game_duration = 120  
 start_time = time.time()
