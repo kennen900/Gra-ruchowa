@@ -53,6 +53,11 @@ cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 cv2.namedWindow("Gra ruchowa", cv2.WINDOW_NORMAL)
 cv2.setWindowProperty("Gra ruchowa", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
 
+# obramówka ekranu
+flash = False
+flash_start = 0
+flash_color = (0, 255, 255)
+
 while True:
     ret, frame = cap.read()
     if not ret:
@@ -82,16 +87,28 @@ while True:
             x = int(index_tip.x * w)
             y = int(index_tip.y * h)
 
-            # rysuj punkt palca
+            # rysuje punkt palca
             cv2.circle(frame, (x, y), 10, (255, 0, 0), -1)
 
             # sprawdzanie trafienia (kolizja)
             distance = ((x - target_x)**2 + (y - target_y)**2)**0.5
             if distance < radius and not game_over:
                 score += 1
+                # nowy cel
                 target_x = random.randint(50, w-50)
                 target_y = random.randint(50, h-50)
                 spawn_time = time.time()
+
+                # uruchomienie flasha
+                flash = True
+                flash_start = time.time()
+
+                # losowy kolor obramówki
+                flash_color = (
+                    random.randint(0,255),
+                    random.randint(0,255),
+                    random.randint(0,255)
+                )
 
     # zmiana celu co kilka sekund
     if time.time() - spawn_time > 3:
@@ -112,6 +129,13 @@ while True:
         cv2.putText(frame, "KONIEC GRY", (150, 200),
                 cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 4)
         break
+
+    if flash:
+        cv2.rectangle(frame, (0,0), (w,h), flash_color, 25)
+
+        # obramówka znika po 0.3 sekundy
+        if time.time() - flash_start > 0.3:
+            flash = False
 
     cv2.imshow("Gra ruchowa", frame)
 
