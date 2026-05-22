@@ -21,12 +21,18 @@ mp_hands = mp.solutions.hands
 hands = mp_hands.Hands()
 mp_drawing = mp.solutions.drawing_utils
 
+# wczytanie obrazka delfina
+dolphin = cv2.imread("Delfin.png", cv2.IMREAD_UNCHANGED)
 
+# zmiana rozmiaru
+dolphin = cv2.resize(dolphin, (100, 80))
+
+dolphin_h, dolphin_w = dolphin.shape[:2]
 
 # obiekt do trafienia
 target_x = random.randint(100, 500)
 target_y = random.randint(100, 400)
-radius = 30
+
 
 score = 0
 spawn_time = time.time()
@@ -76,7 +82,22 @@ while True:
         game_over = True
 
     # rysuj cel
-    cv2.circle(frame, (target_x, target_y), radius, (0, 0, 255), -1)
+    y1 = target_y - dolphin_h // 2
+    y2 = y1 + dolphin_h
+    x1 = target_x - dolphin_w // 2
+    x2 = x1 + dolphin_w
+
+    # sprawdzanie czy obraz mieści się w ekranie
+    if y1 >=0 and y2 <= h and x1 >= 0 and x2 <=w:
+        # kanał alpha (przezroczystość)
+        alpha = dolphin[:, :, 3] / 255.0
+
+        # nakładanie obrazka
+        for c in range(3):
+            frame[y1:y2, x1:x2, c] = (
+                alpha * dolphin[:,:,c] +
+                (1 - alpha) * frame[y1:y2, x1:x2, c]
+            )
 
     if results.multi_hand_landmarks:
         for hand_landmarks in results.multi_hand_landmarks:
@@ -92,7 +113,7 @@ while True:
 
             # sprawdzanie trafienia (kolizja)
             distance = ((x - target_x)**2 + (y - target_y)**2)**0.5
-            if distance < radius and not game_over:
+            if distance < 40 and not game_over:
                 score += 1
                 # nowy cel
                 target_x = random.randint(50, w-50)
