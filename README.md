@@ -45,7 +45,7 @@ Before running the project, ensure you have:
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/kennen900/movement-game.git
+git clone https://github.com/kennen900/Gra-ruchowa.git
 cd movement-game
 ```
 
@@ -168,14 +168,4 @@ pip install -r requirements.txt
 
 ## Future Improvements
 
-Potential project extensions:
 
-- Sound effects
-- Difficulty levels
-- Score leaderboard
-- Multiple target objects
-- Multiplayer support
-- Better UI/UX
-- Pose tracking integration
-
----
