@@ -1,35 +1,85 @@
-![Python](https://img.shields.io/badge/Python-3.11.9-blue.svg)
-![MediaPipe](https://img.shields.io/badge/MediaPipe-0.10.9-green.svg)
-![OpenCV](https://img.shields.io/badge/OpenCV-Najnowsza-orange.svg)
+Gra-ruchowa 
 
-Interaktywna gra ruchowa zręcznościowa wykorzystująca kamerę internetową oraz algorytmy sztucznej inteligencji do śledzenia dłoni w czasie rzeczywistym. Zadaniem gracza jest kontrolowanie kursora za pomocą palca wskazującego i "wskazywanie" pojawiającego się na ekranie delfina.
+Interaktywna gra ruchowa napisana w Pythonie, która wykorzystuje kamerę internetową oraz technologię śledzenia dłoni do sterowania grą za pomocą ruchu palca wskazującego.
 
----
+Gracz zdobywa punkty poprzez dotykanie delfina wyświetlanego na ekranie. System wykrywa pozycję dłoni w czasie rzeczywistym przy użyciu biblioteki MediaPipe.
 
-## 🎮 O grze
+✨ Funkcje
+📷 Wykrywanie dłoni z kamery internetowej
+☝️ Śledzenie palca wskazującego w czasie rzeczywistym
+🐬 Losowo pojawiający się cel (delfin)
+🎯 System punktacji
+⏱️ Limit czasu gry
+🌈 Efekt kolorowej obramówki po trafieniu
+🖥️ Tryb pełnoekranowy
+🔍 Automatyczne wykrywanie dostępnych kamer
+🛠️ Technologie
 
-Gra uruchamia się w trybie pełnoekranowym. Po wybraniu odpowiedniej kamery, program zaczyna analizować obraz:
-1. **Wykrywanie dłoni:** Algorytm śledzi dłoń użytkownika i nakłada na nią mapę punktów (szkielet).
-2. **Mechanika rozgrywki:** Głównym punktem interakcji jest czubek palca wskazującego (oznaczony niebieską kropką).
-3. **Zasady:** Gra trwa **120 sekund**. Gracz musi dotknąć palcem losowo pojawiającego się delfina. Każde trafienie to 1 punkt, zmiana pozycji delfina oraz efektowne, kolorowe mignięcie ramki ekranu. 
-4. **Dynamika:** Jeśli gracz nie trafi w delfina w ciągu 3 sekund, ten zmienia swoje położenie.
+Projekt został stworzony przy użyciu:
 
----
-
-## 🛠️ Wymagania systemowe i technologiczne
-
-Projekt został stworzony i przetestowany na konkretnych wersjach bibliotek, co gwarantuje jego stabilne działanie:
-
-* **Python:** Wersja `3.11.9`
-* **MediaPipe:** Wersja `0.10.9` (odpowiedzialna za detekcję dłoni)
-* **OpenCV:** Do obsługi kamery wideo, renderowania grafiki oraz interfejsu gry.
-
----
-
-## 🚀 Uruchomienie projektu
-
-### 1. Klonowanie repozytorium
-Sklonuj projekt na swój dysk lokalny:
-```bash
-git clone [https://github.com/TWOJ-LOGIN/movement-game.git](https://github.com/TWOJ-LOGIN/movement-game.git)
+Python
+MediaPipe
+OpenCV
+📦 Wymagania
+Python 3.11.9
+Kamera internetowa
+System Windows / Linux / macOS
+🚀 Instalacja
+1. Sklonuj repozytorium
+git clone https://github.com/TWOJ_LOGIN/movement-game.git
 cd movement-game
+2. Utwórz środowisko virtualenv (opcjonalnie)
+python -m venv venv
+3. Aktywuj środowisko
+Windows
+venv\Scripts\activate
+Linux / macOS
+source venv/bin/activate
+4. Zainstaluj wymagane biblioteki
+pip install opencv-python mediapipe==0.10.9
+▶️ Uruchomienie gry
+python test.py
+
+Po uruchomieniu:
+
+Program wyświetli listę dostępnych kamer
+Wybierz numer kamery
+Gra uruchomi się w trybie pełnoekranowym
+Dotykaj delfina palcem wskazującym, aby zdobywać punkty
+🎮 Sterowanie
+Akcja	Opis
+Ruch dłoni	Sterowanie kursorem
+Palec wskazujący	Wykrywanie trafienia
+ESC	Wyjście z gry
+📂 Struktura projektu
+movement-game/
+│
+├── test.py
+├── Delfin.png
+└── README.md
+🧠 Jak działa?
+
+Gra wykorzystuje model wykrywania dłoni z biblioteki MediaPipe.
+
+Pozycja czubka palca wskazującego jest pobierana z landmarku:
+
+hand_landmarks.landmark[8]
+
+Następnie program oblicza odległość między palcem a delfinem:
+
+distance = ((x - target_x)**2 + (y - target_y)**2)**0.5
+
+Jeżeli odległość jest odpowiednio mała — gracz zdobywa punkt.
+
+📸 Gameplay
+
+Możesz dodać tutaj screeny lub GIF-y z gry:
+
+![Gameplay](screenshot.png)
+🔮 Możliwe rozszerzenia
+🔊 Efekty dźwiękowe
+🏆 Tablica wyników
+👥 Multiplayer
+🎨 Więcej obiektów do trafiania
+📱 Wersja mobilna
+🤖 Śledzenie całej sylwetki
